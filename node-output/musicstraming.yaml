@@ -1,0 +1,2276 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Plataforma de Streaming de Música",
+    "description" : "Uma API para gerenciar os usuários de um serviço de streaming de música e suas playlists.",
+    "version" : "v1"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/souzadev/musicstreaming/v1",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "security" : [ {
+    "BearerAuth" : [ ]
+  } ],
+  "paths" : {
+    "/users" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Retorna a lista de usuários",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Número máximo de items no retorno.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 20
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "A quantidade de itens a serem pulados antes de retornar os resultados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operação bem sucedida",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A operação foi bem sucedida.",
+                  "data" : [ {
+                    "username" : "allison",
+                    "name" : "Allison Folha",
+                    "email" : "alisson@gmail.com"
+                  }, {
+                    "username" : "arthur",
+                    "name" : "Arthur Coelho",
+                    "email" : "arthur@gmail.com"
+                  }, {
+                    "username" : "fabricio",
+                    "name" : "Fabricio",
+                    "email" : "fabricio@gmail.com"
+                  }, {
+                    "username" : "isabela",
+                    "name" : "Isa Moreira",
+                    "email" : "isabela@gmail.com"
+                  }, {
+                    "username" : "thiago",
+                    "name" : "Thiago Souza",
+                    "email" : "thiago@gmail.com"
+                  } ]
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Cria um novo usuário",
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/User"
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Recurso criado com sucesso.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O recurso foi criado com sucesso."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Obtém detalhes de um usuário específico",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "Username do usuário requisitado",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "thiago"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Sucesso",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O usuário foi obtido com sucesso.",
+                  "data" : {
+                    "username" : "thiago",
+                    "email" : "thiago@gmail.com",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/users/thiago"
+                    }, {
+                      "rel" : "playlists",
+                      "href" : "/users/thiago/playlists"
+                    } ]
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "put" : {
+        "tags" : [ "Users" ],
+        "summary" : "Atualiza um usuário existente",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "Username do usuário a ser atualizado",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "thiago"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              },
+              "example" : {
+                "username" : "thiago",
+                "name" : "Souza",
+                "email" : "thiago@gmail.com"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Recurso atualizado com sucesso.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O recurso foi atualizado com sucesso."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Não autorizado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Não autorizado. Faça login para acessar o recurso."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Users" ],
+        "summary" : "Exclui um usuário",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "Username do usuário a ser excluído",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Recurso removido com sucesso.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O recurso foi removido com sucesso."
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "Sem conteúdo.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Sem conteúdo."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Não autorizado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Não autorizado. Faça login para acessar o recurso."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{username}/playlists" : {
+      "get" : {
+        "tags" : [ "Users" ],
+        "summary" : "Lista todas as playlists de um usuário",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "Username do usuário",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "thiago"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Resposta da requisição das playlists do usuário.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "As playlists foram obtidas com sucesso.",
+                  "data" : [ {
+                    "playlistId" : 1,
+                    "title" : "Grunge",
+                    "songs" : [ {
+                      "songId" : 1,
+                      "title" : "Smells Like Teen Spirit",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/1"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/1"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/1"
+                      } ]
+                    }, {
+                      "songId" : 2,
+                      "title" : "In Bloom",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/2"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/1"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/1"
+                      } ]
+                    }, {
+                      "songId" : 3,
+                      "title" : "Alive",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/3"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/2"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/2"
+                      } ]
+                    } ],
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/playlist/1"
+                    } ]
+                  }, {
+                    "playlistId" : 2,
+                    "title" : "Pop punk",
+                    "songs" : [ {
+                      "songId" : 7,
+                      "title" : "Longview",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/7"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/4"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/4"
+                      } ]
+                    }, {
+                      "songId" : 8,
+                      "title" : "Basket Case",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/8"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/4"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/4"
+                      } ]
+                    }, {
+                      "songId" : 9,
+                      "title" : "Dammit",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/9"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/5"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/5"
+                      } ]
+                    } ],
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/playlist/2"
+                    } ]
+                  } ]
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Cria uma nova playlist para um usuário",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "path",
+          "description" : "username do usuário",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "thiago"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Playlist"
+              },
+              "example" : {
+                "title" : "Seattle",
+                "songs" : [ {
+                  "songId" : 4,
+                  "title" : "Even Flow",
+                  "links" : [ {
+                    "rel" : "self",
+                    "href" : "/songs/4"
+                  }, {
+                    "rel" : "artist",
+                    "href" : "/artist/2"
+                  }, {
+                    "rel" : "album",
+                    "href" : "/album/2"
+                  } ]
+                }, {
+                  "songId" : 5,
+                  "title" : "Man in the Box",
+                  "links" : [ {
+                    "rel" : "self",
+                    "href" : "/songs/5"
+                  }, {
+                    "rel" : "artist",
+                    "href" : "/artist/3"
+                  }, {
+                    "rel" : "album",
+                    "href" : "/album/3"
+                  } ]
+                }, {
+                  "songId" : 6,
+                  "title" : "Sea of Sorrow",
+                  "links" : [ {
+                    "rel" : "self",
+                    "href" : "/songs/6"
+                  }, {
+                    "rel" : "artist",
+                    "href" : "/artist/3"
+                  }, {
+                    "rel" : "album",
+                    "href" : "/album/3"
+                  } ]
+                } ]
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Recurso criado com sucesso.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O recurso foi criado com sucesso."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/playlists/{playlistId}" : {
+      "get" : {
+        "tags" : [ "Playlists" ],
+        "summary" : "Obter uma playlist específica",
+        "parameters" : [ {
+          "name" : "playlistId",
+          "in" : "path",
+          "description" : "ID da playlist",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Retorna os detalhes da playlist",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Playlist"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "Playlist retornada com sucesso.",
+                  "data" : [ {
+                    "playlistId" : 1,
+                    "title" : "Grunge",
+                    "songs" : [ {
+                      "songId" : 1,
+                      "title" : "Smells Like Teen Spirit",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/1"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/1"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/1"
+                      } ]
+                    }, {
+                      "songId" : 2,
+                      "title" : "In Bloom",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/2"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/1"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/1"
+                      } ]
+                    }, {
+                      "songId" : 3,
+                      "title" : "Alive",
+                      "links" : [ {
+                        "rel" : "self",
+                        "href" : "/songs/3"
+                      }, {
+                        "rel" : "artist",
+                        "href" : "/artist/2"
+                      }, {
+                        "rel" : "album",
+                        "href" : "/album/2"
+                      } ]
+                    } ],
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/playlist/1"
+                    }, {
+                      "rel" : "updatePlaylist",
+                      "href" : "/playlist/1"
+                    }, {
+                      "rel" : "deletePlaylist",
+                      "href" : "/playlist/1"
+                    } ]
+                  } ]
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      },
+      "put" : {
+        "tags" : [ "Playlists" ],
+        "summary" : "Atualizar uma playlist existente",
+        "parameters" : [ {
+          "name" : "playlistId",
+          "in" : "path",
+          "description" : "ID da playlist",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "example" : 1
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Playlist"
+              },
+              "example" : {
+                "playlistId" : 1,
+                "title" : "Grunge",
+                "songs" : [ {
+                  "songId" : 1,
+                  "title" : "Smells Like Teen Spirit",
+                  "artist" : {
+                    "artistId" : 1,
+                    "artistName" : "Nirvana",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/1"
+                    } ]
+                  },
+                  "links" : [ {
+                    "rel" : "self",
+                    "href" : "/song/1"
+                  }, {
+                    "rel" : "album",
+                    "href" : "/album/1"
+                  } ]
+                }, {
+                  "songId" : 2,
+                  "title" : "Man in the box",
+                  "artist" : {
+                    "artistId" : 2,
+                    "artistName" : "Alice in Chains",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/2"
+                    } ]
+                  },
+                  "links" : [ {
+                    "rel" : "self",
+                    "href" : "/song/2"
+                  }, {
+                    "rel" : "album",
+                    "href" : "/album/2"
+                  } ]
+                }, {
+                  "songId" : 7,
+                  "title" : "Sea of Sorrow",
+                  "artist" : {
+                    "artistId" : 2,
+                    "artistName" : "Alice in Chains",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/2"
+                    } ]
+                  },
+                  "links" : [ {
+                    "rel" : "self",
+                    "href" : "/song/2"
+                  }, {
+                    "rel" : "album",
+                    "href" : "/album/2"
+                  } ]
+                } ],
+                "links" : [ {
+                  "rel" : "self",
+                  "href" : "/playlist/1"
+                } ]
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Recurso atualizado com sucesso.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O recurso foi atualizado com sucesso."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Não autorizado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Não autorizado. Faça login para acessar o recurso."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Playlists" ],
+        "summary" : "Excluir uma playlist",
+        "parameters" : [ {
+          "name" : "playlistId",
+          "in" : "path",
+          "description" : "ID da playlist a ser excluída",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Recurso removido com sucesso.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "O recurso foi removido com sucesso."
+                }
+              }
+            }
+          },
+          "204" : {
+            "description" : "Sem conteúdo.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Sem conteúdo."
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Não autorizado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Não autorizado. Faça login para acessar o recurso."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/songs" : {
+      "get" : {
+        "tags" : [ "Songs" ],
+        "summary" : "Obter todas as músicas.",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Número máximo de items no retorno.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 20
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "A quantidade de itens a serem pulados antes de retornar os resultados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operação bem sucedida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A operação foi bem sucedida.",
+                  "data" : [ {
+                    "songId" : 1,
+                    "title" : "Smells Like Teen Spirit",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/1"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/1"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/1"
+                    } ]
+                  }, {
+                    "songId" : 2,
+                    "title" : "In Bloom",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/2"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/1"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/1"
+                    } ]
+                  }, {
+                    "songId" : 3,
+                    "title" : "Alive",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/3"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/2"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/2"
+                    } ]
+                  }, {
+                    "songId" : 7,
+                    "title" : "Longview",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/7"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/4"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/4"
+                    } ]
+                  }, {
+                    "songId" : 8,
+                    "title" : "Basket Case",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/8"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/4"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/4"
+                    } ]
+                  }, {
+                    "songId" : 9,
+                    "title" : "Dammit",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/9"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/5"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/5"
+                    } ]
+                  } ]
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/songs/{songId}" : {
+      "get" : {
+        "tags" : [ "Songs" ],
+        "summary" : "Obter detalhes de uma música específica",
+        "parameters" : [ {
+          "name" : "songId",
+          "in" : "path",
+          "description" : "ID da música",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Retorna os detalhes da música",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A música foi obtida com sucesso",
+                  "data" : {
+                    "songId" : 1,
+                    "title" : "Smells Like Teen Spirit",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/songs/1"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artist/1"
+                    }, {
+                      "rel" : "album",
+                      "href" : "/album/1"
+                    } ]
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/artists" : {
+      "get" : {
+        "tags" : [ "Artists" ],
+        "summary" : "Obter todos os artistas",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Número máximo de items no retorno.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 20
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "A quantidade de itens a serem pulados antes de retornar os resultados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operação bem sucedida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A operação foi bem sucedida.",
+                  "data" : [ {
+                    "artistId" : 1,
+                    "artistName" : "Nirvana",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/1"
+                    } ]
+                  }, {
+                    "artistId" : 2,
+                    "artistName" : "Pearl Jam",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/2"
+                    } ]
+                  }, {
+                    "artistId" : 3,
+                    "artistName" : "Alice In Chains",
+                    "links" : [ {
+                      "rel" : "self",
+                      "ref" : "/artist/3"
+                    } ]
+                  }, {
+                    "artistId" : 4,
+                    "artistName" : "Green Day",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/4"
+                    } ]
+                  }, {
+                    "artistId" : 5,
+                    "artistName" : "Blink 182",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/5"
+                    } ]
+                  }, {
+                    "artistId" : 6,
+                    "artistName" : "Offspring",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/6"
+                    } ]
+                  } ]
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/artists/{artistId}" : {
+      "get" : {
+        "tags" : [ "Artists" ],
+        "summary" : "Obter detalhes de um artista específico",
+        "parameters" : [ {
+          "name" : "artistId",
+          "in" : "path",
+          "description" : "Id do artista",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Retorna os detalhes do artista",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A operação foi bem sucedida.",
+                  "data" : {
+                    "artistId" : 1,
+                    "artistName" : "Nirvana",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/artist/1"
+                    } ]
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/albums" : {
+      "get" : {
+        "tags" : [ "Albums" ],
+        "summary" : "Obter todos os álbuns",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Número máximo de items no retorno.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "maximum" : 100,
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 20
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "A quantidade de itens a serem pulados antes de retornar os resultados.",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Operação bem sucedida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A operação foi bem sucedida.",
+                  "data" : [ {
+                    "albumId" : 1,
+                    "title" : "Nevermind",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/1"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/1"
+                    } ]
+                  }, {
+                    "albumId" : 2,
+                    "title" : "Ten",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/2"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/2"
+                    } ]
+                  }, {
+                    "albumId" : 3,
+                    "title" : "Facelift",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/3"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/3"
+                    } ]
+                  }, {
+                    "albumId" : 4,
+                    "title" : "Dookie",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/4"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/4"
+                    } ]
+                  }, {
+                    "albumId" : 5,
+                    "title" : "Dude Ranch",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/5"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/5"
+                    } ]
+                  }, {
+                    "albumId" : 6,
+                    "title" : "Smash",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/6"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/6"
+                    } ]
+                  } ]
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    },
+    "/albums/{albumId}" : {
+      "get" : {
+        "tags" : [ "Albums" ],
+        "summary" : "Obter detalhes de um album específico",
+        "parameters" : [ {
+          "name" : "albumId",
+          "in" : "path",
+          "description" : "Id do album",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "example" : 1
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Retorna os detalhes do album",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "success",
+                  "message" : "A operação foi bem sucedida.",
+                  "data" : {
+                    "albumId" : 1,
+                    "title" : "Nevermind",
+                    "links" : [ {
+                      "rel" : "self",
+                      "href" : "/albums/1"
+                    }, {
+                      "rel" : "artist",
+                      "href" : "/artists/1"
+                    } ]
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Requisição inválida.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Requisição inválida. Verifique os parâmetros.."
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Recurso não encontrado.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Recurso não encontrado."
+                }
+              }
+            }
+          },
+          "405" : {
+            "description" : "Método não permitido.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Método não permitido. Verifique o método HTTP utilizado."
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Erro interno do servidor.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Response"
+                },
+                "example" : {
+                  "status" : "error",
+                  "message" : "Erro interno do servidor. Entre em contato com o suporte."
+                }
+              }
+            }
+          }
+        },
+        "security" : [ ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "required" : [ "email", "username" ],
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string",
+            "writeOnly" : true
+          }
+        },
+        "xml" : {
+          "name" : "User"
+        }
+      },
+      "Artist" : {
+        "required" : [ "artistName" ],
+        "type" : "object",
+        "properties" : {
+          "artistId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "artistName" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "xml" : {
+          "name" : "Artist"
+        }
+      },
+      "Song" : {
+        "required" : [ "artistId", "title" ],
+        "type" : "object",
+        "properties" : {
+          "songId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "artist" : {
+            "$ref" : "#/components/schemas/Artist"
+          },
+          "links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "xml" : {
+          "name" : "Song"
+        }
+      },
+      "Playlist" : {
+        "required" : [ "title" ],
+        "type" : "object",
+        "properties" : {
+          "playlistId" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "songs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Song"
+            }
+          },
+          "links" : {
+            "$ref" : "#/components/schemas/Links"
+          }
+        },
+        "xml" : {
+          "name" : "Playlist"
+        }
+      },
+      "Link" : {
+        "type" : "object",
+        "properties" : {
+          "rel" : {
+            "type" : "string"
+          },
+          "href" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/Link"
+        }
+      },
+      "Response" : {
+        "required" : [ "message", "status" ],
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "data" : {
+            "oneOf" : [ {
+              "type" : "object"
+            }, {
+              "type" : "array"
+            } ]
+          }
+        }
+      }
+    },
+    "responses" : {
+      "200put" : {
+        "description" : "Recurso atualizado com sucesso.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "success",
+              "message" : "O recurso foi atualizado com sucesso."
+            }
+          }
+        }
+      },
+      "200delete" : {
+        "description" : "Recurso removido com sucesso.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "success",
+              "message" : "O recurso foi removido com sucesso."
+            }
+          }
+        }
+      },
+      "201" : {
+        "description" : "Recurso criado com sucesso.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "success",
+              "message" : "O recurso foi criado com sucesso."
+            }
+          }
+        }
+      },
+      "204" : {
+        "description" : "Sem conteúdo.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "error",
+              "message" : "Sem conteúdo."
+            }
+          }
+        }
+      },
+      "400" : {
+        "description" : "Requisição inválida.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "error",
+              "message" : "Requisição inválida. Verifique os parâmetros.."
+            }
+          }
+        }
+      },
+      "401" : {
+        "description" : "Não autorizado.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "error",
+              "message" : "Não autorizado. Faça login para acessar o recurso."
+            }
+          }
+        }
+      },
+      "404" : {
+        "description" : "Recurso não encontrado.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "error",
+              "message" : "Recurso não encontrado."
+            }
+          }
+        }
+      },
+      "405" : {
+        "description" : "Método não permitido.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "error",
+              "message" : "Método não permitido. Verifique o método HTTP utilizado."
+            }
+          }
+        }
+      },
+      "500" : {
+        "description" : "Erro interno do servidor.",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/Response"
+            },
+            "example" : {
+              "status" : "error",
+              "message" : "Erro interno do servidor. Entre em contato com o suporte."
+            }
+          }
+        }
+      }
+    },
+    "parameters" : {
+      "offset" : {
+        "name" : "offset",
+        "in" : "query",
+        "description" : "A quantidade de itens a serem pulados antes de retornar os resultados.",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "minimum" : 0,
+          "type" : "integer",
+          "format" : "int32",
+          "default" : 0
+        }
+      },
+      "limit" : {
+        "name" : "limit",
+        "in" : "query",
+        "description" : "Número máximo de items no retorno.",
+        "required" : false,
+        "style" : "form",
+        "explode" : true,
+        "schema" : {
+          "maximum" : 100,
+          "minimum" : 1,
+          "type" : "integer",
+          "format" : "int32",
+          "default" : 20
+        }
+      }
+    },
+    "requestBodies" : {
+      "User" : {
+        "description" : "Objeto de usuário",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/User"
+            },
+            "example" : {
+              "username" : "rommel",
+              "email" : "rommel@gmail.com"
+            }
+          },
+          "application/xml" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/User"
+            },
+            "example" : {
+              "username" : "rommel",
+              "email" : "rommel@gmail.com"
+            }
+          }
+        },
+        "required" : true
+      }
+    },
+    "securitySchemes" : {
+      "BearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer"
+      }
+    }
+  }
+}
